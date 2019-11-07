@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "name": "Code Cap. Great Job!",
+    "version": "0.1",
+    "description": "An OCR tool used to capture code from pictures or videos in chrome",
+    "browser_action": {
+        "default_icon": "harold.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [ "<all_urls>" ],
+            "js": ["content.js"]
+        }
+    ],
+    "background": {
+        "scripts": ["background.js"]
+      }
+  }
