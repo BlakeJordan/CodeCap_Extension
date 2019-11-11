@@ -5,7 +5,8 @@
     "description": "An OCR tool used to capture code from pictures or videos in chrome.",
     "browser_action": {
         "default_popup": "test.html",
-        "default_title": "CodeCap"
+        "default_title": "CodeCap",
+        "default_icon": "camera_icon.png"
     },
     "content_scripts": [
         {
