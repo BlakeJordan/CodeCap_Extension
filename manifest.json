@@ -2,19 +2,18 @@
     "manifest_version": 2,
     "name": "Code Cap. Great Job!",
     "version": "0.1",
-    "description": "An OCR tool used to capture code from pictures or videos in chrome.",
+    "description": "An OCR tool used to capture code from pictures or videos in Chrome.",
     "browser_action": {
-        "default_popup": "test.html",
         "default_title": "CodeCap",
         "default_icon": "camera_icon.png"
     },
     "content_scripts": [
         {
             "matches": [ "<all_urls>" ],
-            "js": ["content.js"]
+            "js": [ "scripts/aws-sdk.min.js", "scripts/content.js" ]
         }
     ],
     "background": {
-        "scripts": ["background.js"]
+        "scripts": ["scripts/background.js"]
       }
-  }
+}
