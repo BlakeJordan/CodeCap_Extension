@@ -1,7 +1,5 @@
 // content.js
 
-var ocrResults;
-
 // Called by background.js, executes on camera icon click.
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
