@@ -67,7 +67,6 @@ function onOcrExecuted(payloadJSON) {
   document.body.removeChild(field);
   
 
-  console.log("Yeeter check");
   console.log("Status code: " + statusCode);
   console.log("Text: " + text);
 }
