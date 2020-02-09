@@ -56,6 +56,16 @@ function executeOCR(base64String) {
 function onOcrExecuted(payloadJSON) {
   var statusCode = payloadJSON.statusCode;
   var text = payloadJSON.text;
+  var field = document.createElement("textarea");
+
+  field.textContent = text;
+  document.body.appendChild(field);
+
+  field.select();
+  document.execCommand("copy");
+
+  document.body.removeChild(field);
+  
 
   console.log("Status code: " + statusCode);
   console.log("Text: " + text);
