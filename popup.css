@@ -1,0 +1,21 @@
+body {
+    height: 600px;
+  width: 500px;
+  background: "harold.png";
+}
+
+.bottom-left {
+    left: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+.output {
+    height: 200px;
+  width: 50%;
+  border-style: solid;
+}
+
+header {
+    font-size: large;
+}
