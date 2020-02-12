@@ -10,6 +10,12 @@ body {
     position: absolute;
 }
 
+.bottom-right {
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
+
 .output {
     height: 200px;
   width: 50%;
