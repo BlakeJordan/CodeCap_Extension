@@ -1,21 +1,39 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-24">
-        <title>Document</title>
-        <link rel="stylesheet" href="popup.css">
-    </head>
-<body> 
-        <header>Welcome to CodeCap</header>
-        <div class="output "contenteditable="true">
-            This text can be edited by the user.
 
-            I'm not sure if we can somehow output text to this area
-            but its worth a look.
-        </div>
-        <div class="btn-group">
-        <button class="bottom-left"><img src="upload_icon.png" alt = "Image" height="20px" width="20px"></button>
-        <button class="bottom-right"><img src="screen_shot.png" alt="Image" height="20px" width="20px"></button>
-        </div>
-    </body>
-    </html>
+<head>
+    <meta charset="UTF-24">
+    <title>Document</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <header>Welcome to CodeCap</header>
+
+    <!-- Output -->
+    <div class="output " contenteditable="true">
+        This text can be edited by the user.
+
+        I'm not sure if we can somehow output text to this area
+        but its worth a look.
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-group">
+        <!-- Upload button -->
+        <button id="upload_button" class="bottom-left">
+            <img src="upload_icon.png" alt="Image" height="20px" width="20px">
+        </button>
+
+        <!-- Screenshot button -->
+        <button id="screenshot_button" class="bottom-right">
+            <img src="screen_shot.png" alt="Image" height="20px" width="20px">
+        </button>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

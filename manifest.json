@@ -3,7 +3,8 @@
     "name": "Code Cap. Great Job!",
     "version": "0.1",
     "description": "An OCR tool used to capture code from pictures or videos in Chrome.",
-    "browser_action": {
+
+    "page_action": {
         "default_title": "CodeCap",
         "default_icon": "camera_icon.png",
         "default_popup": "popup.html"
@@ -15,10 +16,11 @@
         }
     ],
     "permissions": [
+        "activeTab",
+        "declarativeContent",
         "clipboardWrite"
       ],
     "background": {
-        "scripts": ["scripts/background.js"]
+        "scripts": [ "scripts/background.js" ]
       }
-
 }

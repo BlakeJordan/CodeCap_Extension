@@ -58,15 +58,20 @@ function onOcrExecuted(payloadJSON) {
   var text = payloadJSON.text;
   var field = document.createElement("textarea");
 
+  // Copy text to clipboard.
   field.textContent = text;
   document.body.appendChild(field);
-
   field.select();
   document.execCommand("copy");
-
   document.body.removeChild(field);
-  
 
+  // Log Lambda function result.
   console.log("Status code: " + statusCode);
   console.log("Text: " + text);
+
+  // Send "open_popup" message to background.js.
+  // Note: this must be done by background.js because chrome.browserAction cannot be executed by "content scripts".
+  chrome.runtime.sendMessage({
+    message: "open_popup"
+  })
 }
