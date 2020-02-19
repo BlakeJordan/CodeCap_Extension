@@ -6,13 +6,13 @@
 
     "page_action": {
         "default_title": "CodeCap",
-        "default_icon": "camera_icon.png",
-        "default_popup": "popup.html"
+        "default_icon": "media/codecap_logo.png",
+        "default_popup": "html/initial-popup.html"
     },
     "content_scripts": [
         {
             "matches": [ "<all_urls>" ],
-            "js": [ "scripts/aws-sdk.min.js", "scripts/content.js" ]
+            "js": [ "scripts/aws-sdk.min.js", "scripts/ocr-lambda-handler.js" ]
         }
     ],
     "permissions": [
