@@ -1,26 +1,12 @@
-// Page action filter. Set to match all URLs.
-chrome.runtime.onInstalled.addListener(function () {
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
-    chrome.declarativeContent.onPageChanged.addRules([{
-      conditions: [new chrome.declarativeContent.PageStateMatcher({
-        pageUrl: { urlContains: ':' },
-      })
-      ],
-      actions: [new chrome.declarativeContent.ShowPageAction()]
-    }]);
-  });
-});
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 // File path constants
 const INITIAL_POPUP_FILE_PATH   = "../html/initial-state-popup.html"
 const SECONDARY_POPUP_FILE_PATH = "../html/secondary-state-popup.html"
 
-// Called by content.js function onOcrExecuted.
-// Opens the popup upon execution of OCR Lambda function.
-// Note: this must be done by background.js because chrome.browserAction cannot be executed by "content scripts".
+
+/* Messages that trigger actions that must be done by background.js because most chrome APIs can't be used by content scripts.
+   Use:
+   chrome.runtime.sendMessage({ message: "MESSAGE_HERE" });
+   to send messages from content scripts. */
 chrome.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
     console.log("Request message: " + request.message);
