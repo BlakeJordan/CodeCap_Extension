@@ -1,12 +1,14 @@
 {
     "manifest_version": 2,
-    "name": "Code Cap. Great Job!",
+    "name": "CodeCap",
     "version": "0.1",
     "description": "An OCR tool used to capture code from pictures or videos in Chrome.",
 
     "permissions": [
+        "tabs",
         "activeTab",
-        "clipboardWrite"
+        "clipboardWrite",
+        "notifications"
     ],
 
     "browser_action": {
@@ -18,7 +20,8 @@
     "content_scripts": [
         {
             "matches": [ "<all_urls>" ],
-            "js": [ "scripts/aws-sdk.min.js", "scripts/ocr-lambda-handler.js" ]
+            "js": [ "scripts/file-uploader.js", "scripts/screen-shotter.js",
+                    "scripts/aws-sdk.min.js", "scripts/ocr-lambda-handler.js" ]
         }
     ],
 
