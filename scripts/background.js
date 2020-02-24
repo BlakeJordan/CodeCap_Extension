@@ -2,6 +2,8 @@
 //                                 Constants                                 //
 ///////////////////////////////////////////////////////////////////////////////
 const NOTIFY_OCR_EXECUTED_MESSAGE = "notify_ocr_executed";
+const REMOVE_POPUP_MESSAGE        = "remove_popup"
+
 const SECONDARY_POPUP_FILE_PATH   = "../html/secondary-popup.html";
 
 
@@ -16,6 +18,11 @@ chrome.runtime.onMessage.addListener(
 
     // Switch on message.
     switch(request.message) {
+
+      // Remove popup.
+      case REMOVE_POPUP_MESSAGE:
+        chrome.browserAction.setPopup({ popup: "" });    // Set to popup to null.
+        break;
 
       // Lambda function returned.
       case NOTIFY_OCR_EXECUTED_MESSAGE:

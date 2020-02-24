@@ -2,6 +2,7 @@
 //                                 Constants                                 //
 ///////////////////////////////////////////////////////////////////////////////
 const NOTIFY_OCR_EXECUTED_MESSAGE = "notify_ocr_executed";
+const REMOVE_POPUP_MESSAGE        = "remove_popup"
 
 const REGION                 = "us-east-2";
 const IDENTITY_POOL_ID       = "us-east-2:3757c141-f9a2-47f1-954d-ad083326d738";
@@ -12,8 +13,51 @@ const LAMBDA_INVOCATION_TYPE = "RequestResponse";
 const LAMBDA_LOG_TYPE        = "None";
 
 
+// Entry point function for ocr-lambda-handler.js.
+// Executes OCR Lambda function and returns results to background.js.
+function getTextFromBase64Image(base64Image) {
+  // Send remove popup message to background.js.
+  chrome.runtime.sendMessage({
+    message: REMOVE_POPUP_MESSAGE
+  }, function (message) {
+    console.log("background recieved message: \"" + message + "\"");
+  });
+
+  // Execute OCR Lambda function with callback function.
+  executeLambdaFunction(base64Image,
+    (payload) => {
+      // Parse payload.
+      var statusCode = payload.statusCode;
+      var text = payload.text;
+
+      // Log Lambda function result.
+      console.log("Status code: " + statusCode);
+      console.log("Recognized text: " + text);
+
+      // Notify background.js that the Lambda function has returned.
+      chrome.runtime.sendMessage({
+        message: NOTIFY_OCR_EXECUTED_MESSAGE,
+        text: text,
+        statusCode: statusCode
+      }, function (message) {
+        console.log("background recieved message: \"" + message + "\"");
+      });
+
+      // // Copy text to clipboard.
+      // var field = document.createElement("textarea");
+      // field.textContent = text;
+      // document.body.appendChild(field);
+      // field.select();
+      // document.execCommand("copy");
+      // document.body.removeChild(field);
+    })
+}
+
+
 // Calls the OCR Lambda function with the image passed by parameter.
-function executeLambdaFunction(base64Image) {
+// Executes callbackFunction (parameter) on Lambda function return.
+function executeLambdaFunction(base64Image, callbackFunction) {
+
   // Configure AWS SDK.
   console.log("Configuring AWS SDK.")
   AWS.config.region = REGION;
@@ -40,34 +84,8 @@ function executeLambdaFunction(base64Image) {
       prompt(err);
     } else {
       console.log("Lambda function returned.")
-      onOcrExecuted(JSON.parse(data.Payload));
+      callbackFunction(JSON.parse(data.Payload));
+      // onOcrExecuted(JSON.parse(data.Payload));
     }
   });
-}
-
-// Executes after a successful Lambda function call.
-function onOcrExecuted(payloadJSON) {
-  var statusCode = payloadJSON.statusCode;
-  var text = payloadJSON.text;
-  var field = document.createElement("textarea");
-
-  // Log Lambda function result.
-  console.log("Status code: " + statusCode);
-  console.log("Recognized text: " + text);
-
-  // Notify background.js that the Lambda function has returned.
-  chrome.runtime.sendMessage({
-    message: NOTIFY_OCR_EXECUTED_MESSAGE,
-    text: text,
-    statusCode: statusCode
-  }, function (message) {
-      console.log("background recieved message: \"" + message + "\"");
-  });
-
-  // // Copy text to clipboard.
-  // field.textContent = text;
-  // document.body.appendChild(field);
-  // field.select();
-  // document.execCommand("copy");
-  // document.body.removeChild(field);
 }
