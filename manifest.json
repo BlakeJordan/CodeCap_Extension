@@ -3,7 +3,7 @@
     "name": "CodeCap",
     "version": "0.1",
     "description": "An OCR tool used to capture code from pictures or videos in Chrome.",
-
+    
     "permissions": [
         "tabs",
         "activeTab",

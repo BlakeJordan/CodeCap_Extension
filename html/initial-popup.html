@@ -5,33 +5,24 @@
     <meta charset="UTF-24">
     <title>Document</title>
     <link rel="stylesheet" href="popup.css">
+
 </head>
 
-<body>
-    <header>Welcome to CodeCap</header>
-
-    <!-- Output -->
-    <div class="output " contenteditable="true">
-        This text can be edited by the user.
-    
-        I'm not sure if we can somehow output text to this area
-        but its worth a look.
-    </div>
-
     <!-- Buttons -->
-    <div class="btn-group">
+    <div class="icon-bar">
+        <button class = "home-button"> CodeCap</button>
+        
         <!-- Upload button -->
-        <button id="upload_button" class="bottom-left">
-            <img src="../media/upload_icon.png" alt="Image" height="20px" width="20px">
+        <button id="upload_button">
+           <img src="../media/file_upload.svg" alt="Image" height="30px" weight="50px">
         </button>
 
         <!-- Screenshot button -->
-        <button id="screenshot_button" class="bottom-right">
-            <img src="../media/screen_shot.png" alt="Image" height="20px" width="20px">
+        <button id="screenshot_button">
+            <img src="../media/camera.svg" alt="Image" height="30px" weight="30px">
         </button>
     </div>
 
     <script src="../scripts/initial-popup.js"></script>
-</body>
 
 </html>
