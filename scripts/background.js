@@ -3,10 +3,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 const REMOVE_POPUP_MESSAGE = "remove_popup"
+const RESET_POPUP_MESSAGE = "reset_popup"
 const NOTIFY_OCR_EXECUTED_MESSAGE = "notify_ocr_executed";
 const REQUEST_RECOGNIZED_TEXT = "request_recognized_text";
 
 const POPUP_RESULTS_FILE_PATH   = "../html/popup-results.html";
+const POPUP_INITIAL_FILE_PATH = "../html/popup-initial.html";
 
 
 
@@ -37,6 +39,10 @@ chrome.runtime.onMessage.addListener(
       // Remove popup.
       case REMOVE_POPUP_MESSAGE:
         chrome.browserAction.setPopup({ popup: "" });    // Set to popup to null.
+        break;
+
+      case RESET_POPUP_MESSAGE:
+        chrome.browserAction.setPopup({ popup: POPUP_INITIAL_FILE_PATH });
         break;
 
       // Lambda function returned.

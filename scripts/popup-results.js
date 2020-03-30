@@ -3,9 +3,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 const REQUEST_RECOGNIZED_TEXT = "request_recognized_text";
+const RESET_POPUP_MESSAGE = "reset_popup"
 
 
+var resetPopup = document.getElementById("reset_popup");
 
+resetPopup.onclick = function (element) {
+    window.close();
+    sendMessageToContentScripts(RESET_POPUP_MESSAGE);
+};
 ///////////////////////////////////////////////////////////////////////////////
 //                               Initialization                              //
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,10 +20,8 @@ const REQUEST_RECOGNIZED_TEXT = "request_recognized_text";
 chrome.runtime.sendMessage({
     message: REQUEST_RECOGNIZED_TEXT,
 }, function (returnObject) {
-        showResults(returnObject.lambdaStatusCode, returnObject.recognizedText)
+        showResults(returnObject.lambdaStatusCode, returnObject.recognizedText);
 });
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -42,7 +46,6 @@ function showResults(lambdaStatusCode, recognizedText) {
 
 
 
-
 // // Copy text to clipboard.
 // var field = document.createElement("textarea");
 // field.textContent = text;
@@ -50,3 +53,10 @@ function showResults(lambdaStatusCode, recognizedText) {
 // field.select();
 // document.execCommand("copy");
 // document.body.removeChild(field);
+
+
+function sendMessageToContentScripts(message) {
+    chrome.runtime.sendMessage( {
+        message: message
+    });
+}
