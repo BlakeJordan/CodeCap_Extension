@@ -13,14 +13,17 @@ const LAMBDA_INVOCATION_TYPE = "RequestResponse";
 const LAMBDA_LOG_TYPE        = "None";
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                  Functions                                //
+///////////////////////////////////////////////////////////////////////////////
+
 // Entry point function for ocr-lambda-handler.js.
 // Executes OCR Lambda function and returns results to background.js.
 function getTextFromBase64Image(base64Image) {
   // Send remove popup message to background.js.
   chrome.runtime.sendMessage({
     message: REMOVE_POPUP_MESSAGE
-  }, function (message) {
-    console.log("background recieved message: \"" + message + "\"");
   });
 
   // Execute OCR Lambda function with callback function.
@@ -30,26 +33,16 @@ function getTextFromBase64Image(base64Image) {
       var statusCode = payload.statusCode;
       var text = payload.text;
 
-      // Log Lambda function result.
+      // Log OCR results.
       console.log("Status code: " + statusCode);
       console.log("Recognized text: " + text);
 
-      // Notify background.js that the Lambda function has returned.
+      // Send OCR results to background.js.
       chrome.runtime.sendMessage({
         message: NOTIFY_OCR_EXECUTED_MESSAGE,
         text: text,
         statusCode: statusCode
-      }, function (message) {
-        console.log("background recieved message: \"" + message + "\"");
       });
-
-      // // Copy text to clipboard.
-      // var field = document.createElement("textarea");
-      // field.textContent = text;
-      // document.body.appendChild(field);
-      // field.select();
-      // document.execCommand("copy");
-      // document.body.removeChild(field);
     })
 }
 
@@ -85,7 +78,6 @@ function executeLambdaFunction(base64Image, callbackFunction) {
     } else {
       console.log("Lambda function returned.")
       callbackFunction(JSON.parse(data.Payload));
-      // onOcrExecuted(JSON.parse(data.Payload));
     }
   });
 }

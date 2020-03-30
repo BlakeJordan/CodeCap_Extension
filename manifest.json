@@ -14,7 +14,7 @@
     "browser_action": {
         "default_title": "CodeCap",
         "default_icon": "media/codecap_logo.png",
-        "default_popup": "html/initial-popup.html"
+        "default_popup": "html/popup-initial.html"
     },
 
     "content_scripts": [

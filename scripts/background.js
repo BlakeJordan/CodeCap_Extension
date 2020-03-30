@@ -1,12 +1,29 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                 Constants                                 //
 ///////////////////////////////////////////////////////////////////////////////
+
+const REMOVE_POPUP_MESSAGE = "remove_popup"
+const RESET_POPUP_MESSAGE = "reset_popup"
 const NOTIFY_OCR_EXECUTED_MESSAGE = "notify_ocr_executed";
-const REMOVE_POPUP_MESSAGE        = "remove_popup"
+const REQUEST_RECOGNIZED_TEXT = "request_recognized_text";
 
-const SECONDARY_POPUP_FILE_PATH   = "../html/secondary-popup.html";
+const POPUP_RESULTS_FILE_PATH   = "../html/popup-results.html";
+const POPUP_INITIAL_FILE_PATH = "../html/popup-initial.html";
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                 Variables                                 //
+///////////////////////////////////////////////////////////////////////////////
+
+var lambdaStatusCodeCache = 0 // Latest OCR Lambda call's recognized text.
+var recognizedTextCache = ""  // Latest OCR Lambda call's status code.
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                               Initialization                              //
+///////////////////////////////////////////////////////////////////////////////
 
 /* Messages that trigger actions that must be done by background.js because most chrome APIs can't be used by content scripts.
    Use:
@@ -24,16 +41,31 @@ chrome.runtime.onMessage.addListener(
         chrome.browserAction.setPopup({ popup: "" });    // Set to popup to null.
         break;
 
+      case RESET_POPUP_MESSAGE:
+        chrome.browserAction.setPopup({ popup: POPUP_INITIAL_FILE_PATH });
+        break;
+
       // Lambda function returned.
       case NOTIFY_OCR_EXECUTED_MESSAGE:
         onOcrExecuted(parseInt(request.statusCode), request.text);
         break;
-    }
 
-    // Notify sender that message was recieved.
-    sendResponse(request.message)
+      // popup-results.js is requesting the recognized text.
+      case REQUEST_RECOGNIZED_TEXT:
+        sendResponse({
+          lambdaStatusCode: lambdaStatusCodeCache,
+          recognizedText: recognizedTextCache
+        });
+        break;
+    }
   }
 );
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                  Functions                                //
+///////////////////////////////////////////////////////////////////////////////
 
 // Executes when the OCR Lambda funciton returns.
 function onOcrExecuted(statusCode, recognizedText) {
@@ -42,7 +74,9 @@ function onOcrExecuted(statusCode, recognizedText) {
   switch(statusCode) {
     // Executed with no errors.
     case 200:
-      chrome.browserAction.setPopup({ popup: SECONDARY_POPUP_FILE_PATH });    // Set to secondary popup.
+      lambdaStatusCodeCache = statusCode
+      recognizedTextCache = recognizedText
+      chrome.browserAction.setPopup({ popup: POPUP_RESULTS_FILE_PATH });      // Set popup to results popup HTML.
       createNotification("Your text is ready to view!");                      // Notify user that text is ready.
       break;
 
