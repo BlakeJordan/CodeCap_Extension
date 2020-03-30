@@ -10,7 +10,7 @@ uploadButton.onclick = function (element) {
     // Send start message to file-uploader.js.
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
         var activeTab = tabs[0];
-        chrome.tabs.sendMessage(activeTab.id, { "message": START_FILE_UPLOADER_MESSAGE });
+        chrome.runtime.sendMessage( { message: "popup init", tabID: activeTab.id });
     });
 
     // Close popup.
