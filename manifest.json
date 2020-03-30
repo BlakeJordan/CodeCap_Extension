@@ -4,11 +4,20 @@
     "version": "0.1",
     "description": "An OCR tool used to capture code from pictures or videos in Chrome.",
 
+    "web_accessible_resources": [
+        "/media/Jcrop.gif",
+        "/media/pixel.png"
+      ],
+
+
+
     "permissions": [
         "tabs",
         "activeTab",
         "clipboardWrite",
-        "notifications"
+        "notifications",
+        "<all_urls>"
+
     ],
 
     "browser_action": {
@@ -20,7 +29,7 @@
     "content_scripts": [
         {
             "matches": [ "<all_urls>" ],
-            "js": [ "scripts/file-uploader.js", "scripts/screen-shotter.js",
+            "js": [ "scripts/file-uploader.js",
                     "scripts/aws-sdk.min.js", "scripts/ocr-lambda-handler.js" ]
         }
     ],
