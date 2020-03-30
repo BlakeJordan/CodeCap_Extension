@@ -1,27 +1,22 @@
-body {
-    height: 600px;
-  width: 500px;
-  background: "harold.png";
+
+.icon-bar {
+  width: 100%;
+  background-color: rgb(78, 68, 68); /* Dark-grey background */
+  overflow: auto;
 }
 
-.bottom-left {
-    left: 0;
-    bottom: 0;
-    position: absolute;
+.icon-bar button {
+  float: left;
+  text-align: center;
+  width: 100%;
+  padding: 12px 0;
+  transition: all 0.3s ease; /* Add transition for hover effects */
 }
 
-.bottom-right {
-    right: 0;
-    bottom: 0;
-    position: absolute;
+.icon-bar button:hover {
+  background-color: #000; /* Add a hover color */
 }
 
-.output {
-    height: 200px;
-  width: 50%;
-  border-style: solid;
-}
-
-header {
-    font-size: large;
+.home-button {
+  font-family: Impact;
 }
