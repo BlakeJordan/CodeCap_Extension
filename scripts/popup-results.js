@@ -2,25 +2,25 @@
 //                                  Messages                                 //
 ///////////////////////////////////////////////////////////////////////////////
 
-const REQUEST_RECOGNIZED_TEXT = "request_recognized_text";
+const REQUEST_LAMBDA_RESULTS = "request_lambda_results"
 const RESET_POPUP_MESSAGE = "reset_popup"
 
 
-var resetPopup = document.getElementById("reset_popup");
-
-resetPopup.onclick = function (element) {
-    window.close();
-    sendMessageToContentScripts(RESET_POPUP_MESSAGE);
-};
 ///////////////////////////////////////////////////////////////////////////////
 //                               Initialization                              //
 ///////////////////////////////////////////////////////////////////////////////
 
+var resetPopup = document.getElementById("reset_popup");
+resetPopup.onclick = function (element) {
+    window.close();
+    sendMessageToContentScripts(RESET_POPUP_MESSAGE);
+};
+
 // Request background.js to send the cached recognized text.
 chrome.runtime.sendMessage({
-    message: REQUEST_RECOGNIZED_TEXT,
+    message: REQUEST_LAMBDA_RESULTS,
 }, function (returnObject) {
-        showResults(returnObject.lambdaStatusCode, returnObject.recognizedText);
+    showResults(returnObject.lambdaStatusCode, returnObject.recognizedText);
 });
 
 

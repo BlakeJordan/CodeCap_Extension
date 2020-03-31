@@ -1,9 +1,24 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                 Constants                                 //
 ///////////////////////////////////////////////////////////////////////////////
-const NOTIFY_OCR_EXECUTED_MESSAGE = "notify_ocr_executed";
-const SECONDARY_POPUP_FILE_PATH   = "../html/popup-results.html";
+
+const NOTIFY_OCR_EXECUTED_MESSAGE  = "notify_ocr_executed";
+const SECONDARY_POPUP_FILE_PATH    = "../html/popup-results.html";
 const START_SCREEN_SHOTTER_MESSAGE = "start_screen_shotter";
+const REQUEST_LAMBDA_RESULTS       = "request_lambda_results"
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                 Variables                                 //
+///////////////////////////////////////////////////////////////////////////////
+
+var lambdaFunctionStatusCodeCache = 0
+var recognizedTextCache = ""
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                 Functions                                 //
+///////////////////////////////////////////////////////////////////////////////
 
 function getTab(callback){
   var tab;
@@ -11,9 +26,6 @@ function getTab(callback){
     callback(tabs);
   });
 };
-
-
-
 
 function injectTab(tabs){
   var tab = tabs[0];
@@ -36,7 +48,6 @@ var timeout = setTimeout(() => {
     }, 100)
 };
 
-
 /* Messages that trigger actions that must be done by background.js because most chrome APIs can't be used by content scripts.
    Use:
    chrome.runtime.sendMessage({ message: "MESSAGE_HERE" });
@@ -47,6 +58,11 @@ chrome.runtime.onMessage.addListener(
 
     // Switch on message.
     switch(request.message) {
+
+      // popup-results.js is requesting Lambda function results.
+      case REQUEST_LAMBDA_RESULTS:
+        sendResponse({ lambdaStatusCode: lambdaFunctionStatusCodeCache, recognizedText: recognizedTextCache });
+        break;
 
       // Lambda function returned.
       case NOTIFY_OCR_EXECUTED_MESSAGE:
@@ -68,8 +84,6 @@ chrome.runtime.onMessage.addListener(
             })
   
           })
-  
-  
          })
       //capture();
         break;
@@ -92,51 +106,48 @@ chrome.runtime.onMessage.addListener(
 
 
         
-        function crop (image, area, dpr, preserve, format, done) {
-          if (image == undefined){
-            return
-          }
-          var top = area.y * dpr
-          var left = area.x * dpr
-          var width = area.w * dpr
-          var height = area.h * dpr
-          var w = (dpr !== 1 && preserve) ? width : area.w
-          var h = (dpr !== 1 && preserve) ? height : area.h
-      
-          var canvas = null
-          if (!canvas) {
-          canvas = document.createElement('canvas')
-          document.body.appendChild(canvas)
-          }
-          canvas.width = w
-          canvas.height = h
-        
-          var img = new Image()
-          img.onload = () => {
-          var context = canvas.getContext('2d')
-          context.drawImage(img,
-              left, top,
-              width, height,
-              0, 0,
-              w, h
-          )
-      
-          var cropped = canvas.toDataURL(`image/${format}`)
-          done(cropped)
-          }
-          img.src = image
-        
-        
-          //console.log(img.src);
-        }
+function crop (image, area, dpr, preserve, format, done) {
+  if (image == undefined){
+    return
+  }
+  var top = area.y * dpr
+  var left = area.x * dpr
+  var width = area.w * dpr
+  var height = area.h * dpr
+  var w = (dpr !== 1 && preserve) ? width : area.w
+  var h = (dpr !== 1 && preserve) ? height : area.h
+  var canvas = null
+  if (!canvas) {
+    canvas = document.createElement('canvas')
+    document.body.appendChild(canvas)
+  }
+  canvas.width = w
+  canvas.height = h
+
+  var img = new Image()
+  img.onload = () => {
+  var context = canvas.getContext('2d')
+  context.drawImage(img,
+      left, top,
+      width, height,
+      0, 0,
+      w, h
+  )
+  var cropped = canvas.toDataURL(`image/${format}`)
+  done(cropped)
+  }
+  img.src = image
 
 
-
+  //console.log(img.src);
+}
 
 // Executes when the OCR Lambda funciton returns.
 function onOcrExecuted(statusCode, recognizedText) {
-  // Switch on server-side status codes.
+  lambdaFunctionStatusCodeCache = statusCode
+  recognizedTextCache = recognizedText
 
+  // Switch on server-side status codes.
   switch(statusCode) {
     // Executed with no errors.
     case 200:
