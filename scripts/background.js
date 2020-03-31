@@ -2,7 +2,7 @@
 //                                 Constants                                 //
 ///////////////////////////////////////////////////////////////////////////////
 const NOTIFY_OCR_EXECUTED_MESSAGE = "notify_ocr_executed";
-const SECONDARY_POPUP_FILE_PATH   = "../html/secondary-popup.html";
+const SECONDARY_POPUP_FILE_PATH   = "../html/popup-results.html";
 const START_SCREEN_SHOTTER_MESSAGE = "start_screen_shotter";
 
 function getTab(callback){
@@ -28,7 +28,7 @@ var timeout = setTimeout(() => {
     chrome.tabs.insertCSS(tab.id, {file: 'css/cropCSS.css', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'scripts/jquery/jquery-3.4.1.min.js', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'scripts/jquery/jquery.Jcrop.min.js', runAt: 'document_start'})
-    chrome.tabs.executeScript(tab.id, {file: 'scripts/screen-shotter.js', runAt: 'document_start'})
+   // chrome.tabs.executeScript(tab.id, {file: 'scripts/screen-shotter.js', runAt: 'document_start'})
 
     setTimeout(() => {
         chrome.tabs.sendMessage(tab.id, {message: 'init'})
@@ -93,6 +93,9 @@ chrome.runtime.onMessage.addListener(
 
         
         function crop (image, area, dpr, preserve, format, done) {
+          if (image == undefined){
+            return
+          }
           var top = area.y * dpr
           var left = area.x * dpr
           var width = area.w * dpr
@@ -122,7 +125,9 @@ chrome.runtime.onMessage.addListener(
           done(cropped)
           }
           img.src = image
-          console.log(img.src);
+        
+        
+          //console.log(img.src);
         }
 
 

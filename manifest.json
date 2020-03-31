@@ -12,7 +12,8 @@
         "https://*/",     
         "clipboardWrite",
         "notifications",
-        "storage"
+        "storage",
+        "activeTab"
     ],
 
     "browser_action": {

@@ -9,7 +9,10 @@ chrome.runtime.onMessage.addListener(
         if (request.message == "CROPPED_IMAGE") {
           overlay(false)
           selection = null
-          save(request.croppedImage, 'png')
+          if (request.croppedImage){
+          getTextFromBase64Image(request.croppedImage.split(',')[1]);
+
+          }
         }
   
     }
@@ -82,7 +85,7 @@ chrome.runtime.onMessage.addListener(
                 }, function (sendResponse) {
                   overlay(false)
                   selection = null
-                  save(sendResponse, 'png')
+                  //save(sendResponse, 'png')
                 })
               }, 50)
             }
@@ -107,11 +110,11 @@ chrome.runtime.onMessage.addListener(
     }
     
     var save = (image, format) => {
-        console.log(image)
-        var link = document.createElement('a')
-        link.download = filename(format)
-        link.href = image
-        link.click()
+        getTextFromBase64Image(image.split(',')[1]);
+       // var link = document.createElement('a')
+        //link.download = filename(format)
+        //link.href = image
+        //link.click()
   
     }
   
