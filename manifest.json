@@ -4,11 +4,15 @@
     "version": "0.1",
     "description": "An OCR tool used to capture code from pictures or videos in Chrome.",
     
+
+
     "permissions": [
         "tabs",
-        "activeTab",
+        "http://*/",
+        "https://*/",     
         "clipboardWrite",
-        "notifications"
+        "notifications",
+        "storage"
     ],
 
     "browser_action": {
@@ -16,6 +20,11 @@
         "default_icon": "media/codecap_logo.png",
         "default_popup": "html/popup-initial.html"
     },
+
+    "web_accessible_resources": [
+        "/media/Jcrop.gif",
+        "/media/pixel.png"
+      ],
 
     "content_scripts": [
         {

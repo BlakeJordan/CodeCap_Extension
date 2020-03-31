@@ -6,29 +6,13 @@ const SECONDARY_POPUP_FILE_PATH   = "../html/secondary-popup.html";
 const START_SCREEN_SHOTTER_MESSAGE = "start_screen_shotter";
 
 function getTab(callback){
-  var tab
+  var tab;
   chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
     callback(tabs);
   });
 };
 
 
-function CaptureWork(){
-
-       chrome.tabs.getSelected(null,(tab) =>{
-
-        chrome.tabs.captureVisibleTab(tab.windowId, {format: 'png'}, (image) => {
-          // image is base64
-          crop(image, request.area, request.dpr, true, 'png', (cropped) => {
-            sendResponse({message: 'image', image: cropped})
-          })
-
-        })
-
-
-       })
-
-}
 
 
 function injectTab(tabs){
@@ -37,7 +21,7 @@ function injectTab(tabs){
     if (res) {
       clearTimeout(timeout)
     }
-  })
+  });
 
 var timeout = setTimeout(() => {
     chrome.tabs.insertCSS(tab.id, {file: 'css/jquery.Jcrop.min.css', runAt: 'document_start'})
@@ -107,30 +91,6 @@ chrome.runtime.onMessage.addListener(
 
 
 
-
-function inject(tab) {
-
-  chrome.tabs.sendMessage(tab.id, {message: 'init'}, (res) => {
-      if (res) {
-        clearTimeout(timeout)
-      }
-    })
-
-  var timeout = setTimeout(() => {
-      chrome.tabs.insertCSS(tab.id, {file: 'css/jquery.Jcrop.min.css', runAt: 'document_start'})
-      chrome.tabs.insertCSS(tab.id, {file: 'css/cropCSS.css', runAt: 'document_start'})
-      chrome.tabs.executeScript(tab.id, {file: 'scripts/jquery/jquery-3.4.1.min.js', runAt: 'document_start'})
-      chrome.tabs.executeScript(tab.id, {file: 'scripts/jquery/jquery.Jcrop.min.js', runAt: 'document_start'})
-      chrome.tabs.executeScript(tab.id, {file: 'scripts/screen-shotter.js', runAt: 'document_start'})
-
-      setTimeout(() => {
-          chrome.tabs.sendMessage(tab.id, {message: 'init'})
-        }, 100)
-      }, 100)
-
-}
-
-
         
         function crop (image, area, dpr, preserve, format, done) {
           var top = area.y * dpr
@@ -197,59 +157,4 @@ function createNotification(message) {
     title: "CodeCap",
     message: message
   });
-}
-
-
-function fullCapture(){
-  var screenshot = {
-    content : document.createElement("canvas"),
-    data : '',
-  
-    init : function() {
-      this.initEvents();
-    },
-    
-    saveScreenshot : function() {
-      var image = new Image();
-      image.onload = function() {
-        var canvas = screenshot.content;
-        canvas.width = image.width;
-        canvas.height = image.height;
-        var context = canvas.getContext("2d");
-        context.drawImage(image, 0, 0);
-  
-        // save the image
-        var link = document.createElement('a');
-        link.download = "download.png";
-        link.href = screenshot.content.toDataURL();
-        link.click();
-        screenshot.data = '';
-      };
-      image.src = screenshot.data; 
-    },
-    
-    initEvents : function() {
-        chrome.tabs.captureVisibleTab(null, {
-          format : "png",
-          quality : 100
-        }, function(data) {
-          screenshot.data = data;
-          
-          // send an alert message to webpage
-          chrome.tabs.query({
-            active : true,
-            currentWindow : true
-          }, function(tabs) {
-
-                screenshot.saveScreenshot();
-              
-
-
-          }); 
-  
-        });
-    }
-  };
-  
-  screenshot.init();
 }

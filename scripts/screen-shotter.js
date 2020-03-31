@@ -18,17 +18,7 @@ chrome.runtime.onMessage.addListener(
   
   
   
-  /*
-  chrome.runtime.onMessage.addListener(
-      function (request, sender, sendResponse) {
-          if (request.message == START_SCREEN_SHOTTER_MESSAGE) {
-              console.log("screen-shotter recieved message: \"" + request.message + "\"");
-              startScreenShotter();
-          }
-      }
-  );
-  */
-  //var state = true;
+
   console.log('Hi from screen-shotter.js')
   var jcrop, selection
   var overlay = ((active) => (state) => {
@@ -137,7 +127,7 @@ chrome.runtime.onMessage.addListener(
   
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.message === 'init') {
-        sendResponse({}) // prevent re-injecting
+      //  sendResponse({}) // prevent re-injecting
     
         if (!jcrop) {
           image(() => init(() => {
