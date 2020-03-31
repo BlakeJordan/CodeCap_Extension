@@ -135,7 +135,7 @@ chrome.runtime.onMessage.addListener(
   
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.message === 'init') {
-        sendResponse({}) // prevent re-injecting
+       // sendResponse({message: 'popup_init'}) // prevent re-injecting
     
         if (!jcrop) {
           image(() => init(() => {
