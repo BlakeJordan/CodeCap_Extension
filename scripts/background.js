@@ -40,7 +40,7 @@ var timeout = setTimeout(() => {
     chrome.tabs.insertCSS(tab.id, {file: 'css/cropCSS.css', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'scripts/jquery/jquery-3.4.1.min.js', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'scripts/jquery/jquery.Jcrop.min.js', runAt: 'document_start'})
-   // chrome.tabs.executeScript(tab.id, {file: 'scripts/screen-shotter.js', runAt: 'document_start'})
+    //chrome.tabs.executeScript(tab.id, {file: 'scripts/screen-shotter.js', runAt: 'document_start'})
 
     setTimeout(() => {
         chrome.tabs.sendMessage(tab.id, {message: 'init'})
@@ -94,7 +94,7 @@ chrome.runtime.onMessage.addListener(
 
 //end new      
     case "active":
-      return true;
+      break;
 
     }
 

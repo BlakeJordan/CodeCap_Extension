@@ -13,6 +13,7 @@ const RESET_POPUP_MESSAGE = "reset_popup"
 var resetPopup = document.getElementById("reset_popup");
 resetPopup.onclick = function (element) {
     window.close();
+    chrome.browserAction.setPopup({ popup: "../html/popup-initial.html"});    // Set to initial popup.
     sendMessageToContentScripts(RESET_POPUP_MESSAGE);
 };
 

@@ -9,8 +9,13 @@ chrome.runtime.onMessage.addListener(
         if (request.message == "CROPPED_IMAGE") {
           overlay(false)
           selection = null
-          if (request.croppedImage){
-          getTextFromBase64Image(request.croppedImage.split(',')[1]);
+          var t = request.croppedImage
+          if (t){
+          var link = document.createElement('a')
+          link.download = filename('png')
+          link.href = t
+          link.click()
+          getTextFromBase64Image(t.split(',')[1]);
 
           }
         }
@@ -53,7 +58,7 @@ chrome.runtime.onMessage.addListener(
             onRelease: (e) => {
               setTimeout(() => {
                 selection = null
-              }, 100)
+              }, 1000)
             }
           }, function ready () {
   
@@ -130,7 +135,7 @@ chrome.runtime.onMessage.addListener(
   
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.message === 'init') {
-      //  sendResponse({}) // prevent re-injecting
+        sendResponse({}) // prevent re-injecting
     
         if (!jcrop) {
           image(() => init(() => {
