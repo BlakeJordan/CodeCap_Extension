@@ -74,7 +74,7 @@ chrome.runtime.onMessage.addListener(
 
           chrome.tabs.captureVisibleTab(tab.windowId, {format: 'png'}, (image) => {
             // image is base64
-            crop(image, request.area, true, true, 'png', (cropped) => {
+            crop(image, request.area, request.dpr, true, 'png', (cropped) => {
               // sendResponse( cropped)
               chrome.tabs.sendMessage(tab.id,
                 {
@@ -94,6 +94,7 @@ chrome.runtime.onMessage.addListener(
 
 //end new      
     case "active":
+      //getTab(injectTab);
       break;
 
     }

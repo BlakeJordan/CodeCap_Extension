@@ -68,8 +68,7 @@ chrome.runtime.onMessage.addListener(
             })
             if (selection) {
               jcrop.setSelect([
-                selection.x, selection.y,
-                selection.x2, selection.y2
+                selection.left, selection.top, selection.left + selection.width, selection.top + selection.height
               ])
             }
         
