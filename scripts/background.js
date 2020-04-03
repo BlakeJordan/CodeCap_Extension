@@ -166,6 +166,7 @@ function onOcrExecuted(statusCode, recognizedText) {
   }
 }
 
+
 // Creates a Chrome notification with the specified message.
 function createNotification(message) {
   chrome.notifications.create({
