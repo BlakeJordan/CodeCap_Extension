@@ -20,6 +20,12 @@
   font-family: Impact;
 }
 
+.noHover{
+  pointer-events: none;
+  font-weight:bold;
+  font-family: Impact;
+}
+
 .bold {
   font-weight:bold;
 }
