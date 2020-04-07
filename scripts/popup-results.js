@@ -53,7 +53,7 @@ function showResults(lambdaStatusCode, recognizedText) {
     // If bad, notify user.
     // If good, show results.
 
-    document.getElementById('results').innerHTML = "OCR RESULTS:\n" + recognizedText;
+    document.getElementById('results').innerHTML = recognizedText;
 }
 
 
