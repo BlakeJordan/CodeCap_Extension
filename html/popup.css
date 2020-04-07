@@ -1,6 +1,9 @@
+* {
+    box-sizing: border-box;
+} 
 .icon-bar {
   width: 100%;
-  background-color: rgb(78, 68, 68); /* Dark-grey background */
+  background-color: rgb(65, 62, 62); /* Dark-grey background */
   overflow: auto;
 }
 
@@ -12,8 +15,20 @@
   transition: all 0.3s ease; /* Add transition for hover effects */
 }
 
-.icon-bar button:hover {
-  background-color: #000; /* Add a hover color */
+.icon-bar label{
+  float: left;
+  text-align: center;
+  width: 100%;
+  padding: 12px 0;
+  transition: all 0.3s ease; /* Add transition for hover effects */
+}
+
+.icon-bar button:hover{
+  background-color: rgb(133, 130, 130); /* Add a hover color */
+}
+
+.icon-bar label:hover{
+  background-color:rgb(133, 130, 130); /* Add a hover color */
 }
 
 .home-button {
@@ -25,6 +40,17 @@
   font-weight:bold;
   font-family: Impact;
 }
+
+input[type="file"] {
+  display: none; 
+}
+
+label {
+  width: 100%;
+  background-color: rgb(255, 255, 255); /* Dark-grey background */
+  overflow: auto;
+}
+
 
 .bold {
   font-weight:bold;

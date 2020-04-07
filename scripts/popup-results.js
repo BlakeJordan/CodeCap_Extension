@@ -17,6 +17,15 @@ resetPopup.onclick = function (element) {
     sendMessageToContentScripts(RESET_POPUP_MESSAGE);
 };
 
+var copy_resuts = document.getElementById("copy_results");
+copy_results.onclick = function (element) {
+    var field = document.getElementById("results");
+    var range = document.createRange();
+    range.selectNode(field);
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+};
+
 // Request background.js to send the cached recognized text.
 chrome.runtime.sendMessage({
     message: REQUEST_LAMBDA_RESULTS,

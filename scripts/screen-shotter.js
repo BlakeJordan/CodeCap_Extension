@@ -40,8 +40,8 @@ chrome.runtime.onMessage.addListener(
       image.id = 'fake-image'
       image.src = chrome.runtime.getURL('media/pixel.png')
       image.onload = () => { 
-          $('body').append(image)
-          done()
+            $('body').append(image)
+            done()
           }
       }
   
