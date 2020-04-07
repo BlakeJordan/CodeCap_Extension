@@ -14,6 +14,7 @@ const REQUEST_LAMBDA_RESULTS       = "request_lambda_results"
 
 var lambdaFunctionStatusCodeCache = 0
 var recognizedTextCache = ""
+var selectionArea;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -62,7 +63,7 @@ chrome.runtime.onMessage.addListener(
 
       // popup-results.js is requesting Lambda function results.
       case REQUEST_LAMBDA_RESULTS:
-        sendResponse({ lambdaStatusCode: lambdaFunctionStatusCodeCache, recognizedText: recognizedTextCache });
+        sendResponse({ lambdaStatusCode: lambdaFunctionStatusCodeCache, recognizedText: recognizedTextCache, area: selectionArea });
         break;
 
       // Lambda function returned.
@@ -76,11 +77,12 @@ chrome.runtime.onMessage.addListener(
           chrome.tabs.captureVisibleTab(tab.windowId, {format: 'png'}, (image) => {
             // image is base64
             crop(image, request.area, request.dpr, true, 'png', (cropped) => {
+              selectionArea = request.area;
               // sendResponse( cropped)
               chrome.tabs.sendMessage(tab.id,
                 {
                   message: 'CROPPED_IMAGE',
-                  croppedImage: cropped
+                  croppedImage: cropped,
                 })
             })
   

@@ -30,8 +30,12 @@ copy_results.onclick = function (element) {
 chrome.runtime.sendMessage({
     message: REQUEST_LAMBDA_RESULTS,
 }, function (returnObject) {
-    showResults(returnObject.lambdaStatusCode, returnObject.recognizedText);
+
+    showResults(returnObject.lambdaStatusCode, returnObject.recognizedText,returnObject.area);
+
 });
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
