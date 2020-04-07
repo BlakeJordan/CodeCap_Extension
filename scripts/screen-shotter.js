@@ -58,7 +58,7 @@ chrome.runtime.onMessage.addListener(
             onRelease: (e) => {
               setTimeout(() => {
                 selection = null
-              }, 1000)
+              }, 100)
             }
           }, function ready () {
   
@@ -134,7 +134,7 @@ chrome.runtime.onMessage.addListener(
   
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.message === 'init') {
-       // sendResponse({message: 'popup_init'}) // prevent re-injecting
+        sendResponse({}) // prevent re-injecting
     
         if (!jcrop) {
           image(() => init(() => {
