@@ -154,7 +154,7 @@ function onOcrExecuted(statusCode, recognizedText) {
     // Executed with no errors.
     case 200:
       chrome.browserAction.setPopup({ popup: SECONDARY_POPUP_FILE_PATH });    // Set to secondary popup.
-      createNotification("Your text is ready to view!");                      // Notify user that text is ready.
+      createNotification("Your text is ready!\nClick on the extenion to view the results. ");                      // Notify user that text is ready.
       break;
 
     // Base64 encoding error occured.
