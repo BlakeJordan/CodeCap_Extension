@@ -36,6 +36,7 @@ function injectTab(tabs){
   });
 
 var timeout = setTimeout(() => {
+    console.log("injection\n")
     chrome.tabs.insertCSS(tab.id, {file: 'css/jquery.Jcrop.min.css', runAt: 'document_start'})
     chrome.tabs.insertCSS(tab.id, {file: 'css/cropCSS.css', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'scripts/jquery/jquery-3.4.1.min.js', runAt: 'document_start'})
@@ -44,7 +45,7 @@ var timeout = setTimeout(() => {
 
     setTimeout(() => {
         chrome.tabs.sendMessage(tab.id, {message: 'init'})
-      }, 1000)
+      }, 100)
     }, 100)
 };
 
