@@ -91,13 +91,16 @@ chrome.runtime.onMessage.addListener(
         break;
       
       case "popup_init":
-       getTab(injectTab);
-       return true;
+        getTab(injectTab);
+        return true;
 
 //end new      
-    case "active":
-     return true;
+      case "active":
+        return true;
 
+      case "copy":
+        createNotification("Copied to clipboard!");
+        break; 
     }
 
     // Notify sender that message was recieved.

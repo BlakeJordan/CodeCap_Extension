@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener(
           var t = request.croppedImage
           if (t){
           var link = document.createElement('a')
-          link.download = filename('png')
+          //link.download = filename('png')
           link.href = t
           link.click()
           getTextFromBase64Image(t.split(',')[1]);
