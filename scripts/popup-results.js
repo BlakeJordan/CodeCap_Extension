@@ -12,7 +12,7 @@ const RESET_POPUP_MESSAGE = "reset_popup"
 
 // Set to initial popup (button)
 var resetPopup = document.getElementById("reset_popup");
-resetPopup.onclick = function (element) {
+resetPopup.onclick = function(element) {
     window.close();
     chrome.browserAction.setPopup({ popup: "../html/popup-initial.html"});
     sendMessageToContentScripts(RESET_POPUP_MESSAGE);
@@ -20,14 +20,25 @@ resetPopup.onclick = function (element) {
 
 // Copy results to clipboard (button)
 var copy_resuts = document.getElementById("copy_results");
-copy_results.onclick = function (element) {
-    var field = document.getElementById("results");
-    var range = document.createRange();
-    range.selectNode(field);
-    window.getSelection().addRange(range);
-    document.execCommand("copy");
+copy_results.onclick = function(element) {
+    var text = document.getElementById("results").textContent;
+    navigator.clipboard.writeText(text)
+    .then(() => {
+        console.log('Text copied to clipboard');
+    })
+    .catch(err => {
+        console.error('Could not copy text: ', err);
+    });
     sendMessageToContentScripts("copy");
 };
+
+// TODO: Save edited ocr results when clicking away
+var update_text = document.getElementById("results");
+update_text.onblur = function(element) {
+    var text = update_text.textContent;
+    alert(text);
+    update_text.innerHTML = text;
+}
 
 // Request background.js to send the cached recognized text.
 chrome.runtime.sendMessage({
