@@ -31,7 +31,7 @@ function getTextFromBase64Image(base64Image) {
     (payload) => {
       // Parse payload.
       var statusCode = payload.statusCode;
-      var text = payload.text;
+      var text = payload.text.substring(1, payload.text.length - 1);
 
       // Log OCR results.
       console.log("Status code: " + statusCode);

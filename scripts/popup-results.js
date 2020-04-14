@@ -21,24 +21,34 @@ resetPopup.onclick = function(element) {
 // Copy results to clipboard (button)
 var copy_resuts = document.getElementById("copy_results");
 copy_results.onclick = function(element) {
-    var text = document.getElementById("results").textContent;
+    // Get text from results div.
+    var text = document.getElementById("results").innerHTML;
+
+    // Replace HTML line breaks with newlines.
+    text = text.split("<br>").join("\n");
+    text = text.split("< br >").join("\n");
+
+    // Replace HTML tabs with tabs.
+    // text = text.split("&emsp;").join("\t");
+
     navigator.clipboard.writeText(text)
     .then(() => {
-        console.log('Text copied to clipboard');
+        console.log("Text copied to clipboard");
     })
     .catch(err => {
-        console.error('Could not copy text: ', err);
+        console.error("Could not copy text: ", err);
     });
+
     sendMessageToContentScripts("copy");
 };
 
 // TODO: Save edited ocr results when clicking away
-var update_text = document.getElementById("results");
-update_text.onblur = function(element) {
-    var text = update_text.textContent;
-    alert(text);
-    update_text.innerHTML = text;
-}
+// var update_text = document.getElementById("results");
+// update_text.onblur = function(element) {
+//     var text = update_text.innerHTML;
+//     alert(text);
+//     update_text.innerHTML = text;
+// };
 
 // Request background.js to send the cached recognized text.
 chrome.runtime.sendMessage({
@@ -46,8 +56,6 @@ chrome.runtime.sendMessage({
 }, function (returnObject) {
     showResults(returnObject.lambdaStatusCode, returnObject.recognizedText,returnObject.area);
 });
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -59,13 +67,17 @@ chrome.runtime.sendMessage({
 // notifying the user of a Lambda call error.
 function showResults(lambdaStatusCode, recognizedText) {
 
-    // TODO: switch on status code results.
-    // 200 -> good, 400 or 500 -> bad
+    // Case: OCR call successful.
+    if (lambdaStatusCode == 200) {
+        recognizedText = recognizedText.split("\\n").join("<br/>");     // Replace all hard-coded newlines with HTML line breaks.
+        // recognizedText = recognizedText.split("\\t").join("&emsp;");    // Replace all hard-coded tabs with HTML tabs.
+        document.getElementById("results").innerHTML = recognizedText;
+    }
 
-    // If bad, notify user.
-    // If good, show results.
-
-    document.getElementById('results').innerHTML = recognizedText;
+    // Case: OCR call threw error.
+    else {
+        document.getElementById("results").innerHTML = "Text could not be recognized. Please try again.";
+    }
 }
 
 function sendMessageToContentScripts(message) {

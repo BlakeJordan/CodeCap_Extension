@@ -28,7 +28,7 @@
 }
 
 .icon-bar label:hover{
-  background-color:rgb(133, 130, 130); /* Add a hover color */
+  background-color: rgb(133, 130, 130); /* Add a hover color */
 }
 
 .home-button {
@@ -37,7 +37,7 @@
 
 .noHover{
   pointer-events: none;
-  font-weight:bold;
+  font-weight: bold;
   font-family: Impact;
 }
 
@@ -51,7 +51,6 @@ label {
   overflow: auto;
 }
 
-
 .bold {
-  font-weight:bold;
+  font-weight: bold;
 }
