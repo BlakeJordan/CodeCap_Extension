@@ -29,7 +29,7 @@ copy_results.onclick = function(element) {
     text = text.split("< br >").join("\n");
 
     // Replace HTML tabs with tabs.
-    // text = text.split("&emsp;").join("\t");
+    text = text.split("&nbsp;&nbsp;&nbsp;&nbsp;").join("\t");
 
     navigator.clipboard.writeText(text)
     .then(() => {
@@ -57,6 +57,25 @@ chrome.runtime.sendMessage({
     showResults(returnObject.lambdaStatusCode, returnObject.recognizedText,returnObject.area);
 });
 
+// Allow text results box to input tabs.
+document.getElementById("results").onkeydown = function (e) {
+    if (e.keyCode == 9 || e.which == 9) {
+        e.preventDefault();
+        
+        var doc = e.target.ownerDocument.defaultView;
+        var sel = doc.getSelection();
+        var range = sel.getRangeAt(0);
+
+        var tabNode = document.createTextNode("\u00a0\u00a0\u00a0\u00a0");
+        range.insertNode(tabNode);
+
+        range.setStartAfter(tabNode);
+        range.setEndAfter(tabNode);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                  Functions                                //
@@ -70,7 +89,7 @@ function showResults(lambdaStatusCode, recognizedText) {
     // Case: OCR call successful.
     if (lambdaStatusCode == 200) {
         recognizedText = recognizedText.split("\\n").join("<br/>");     // Replace all hard-coded newlines with HTML line breaks.
-        // recognizedText = recognizedText.split("\\t").join("&emsp;");    // Replace all hard-coded tabs with HTML tabs.
+        recognizedText = recognizedText.split("\\t").join("&nbsp;&nbsp;&nbsp;&nbsp;");    // Replace all hard-coded tabs with HTML tabs.
         document.getElementById("results").innerHTML = recognizedText;
     }
 
