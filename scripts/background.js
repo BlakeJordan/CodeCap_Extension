@@ -68,7 +68,7 @@ chrome.runtime.onMessage.addListener(
 
       // Lambda function returned.
       case NOTIFY_OCR_EXECUTED_MESSAGE:
-        onOcrExecuted(parseInt(request.statusCode), request.text);
+        onOcrExecuted(parseInt(request.statusCode), request.recognizedText);
         break;
 
       case "capture":

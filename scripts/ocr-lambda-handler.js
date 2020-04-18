@@ -31,16 +31,16 @@ function getTextFromBase64Image(base64Image) {
     (payload) => {
       // Parse payload.
       var statusCode = payload.statusCode;
-      var text = payload.text.substring(1, payload.text.length - 1);
+      var recognizedText = payload.recognizedText.substring(1, payload.recognizedText.length - 1);
 
       // Log OCR results.
       console.log("Status code: " + statusCode);
-      console.log("Recognized text: " + text);
+      console.log("Recognized text: " + recognizedText);
 
       // Send OCR results to background.js.
       chrome.runtime.sendMessage({
         message: NOTIFY_OCR_EXECUTED_MESSAGE,
-        text: text,
+        recognizedText: recognizedText,
         statusCode: statusCode
       });
     })
