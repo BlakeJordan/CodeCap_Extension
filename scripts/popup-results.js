@@ -1,9 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
-//                                  Messages                                 //
+//                                Constants                                  //
 ///////////////////////////////////////////////////////////////////////////////
 
 const REQUEST_LAMBDA_RESULTS = "request_lambda_results"
-const RESET_POPUP_MESSAGE = "reset_popup"
+const RESET_POPUP_MESSAGE    = "reset_popup"
+
+const UNICODE_TAB = "\u2003"
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -29,7 +31,7 @@ copy_results.onclick = function(element) {
     text = text.split("< br >").join("\n");
 
     // Replace HTML tabs with tabs.
-    text = text.split("&nbsp;&nbsp;&nbsp;&nbsp;").join("\t");
+    text = text.split(UNICODE_TAB).join("\t");
 
     navigator.clipboard.writeText(text)
     .then(() => {
@@ -66,7 +68,7 @@ document.getElementById("results").onkeydown = function (e) {
         var sel = doc.getSelection();
         var range = sel.getRangeAt(0);
 
-        var tabNode = document.createTextNode("\u00a0\u00a0\u00a0\u00a0");
+        var tabNode = document.createTextNode(UNICODE_TAB);
         range.insertNode(tabNode);
 
         range.setStartAfter(tabNode);
@@ -88,8 +90,8 @@ function showResults(lambdaStatusCode, recognizedText) {
 
     // Case: OCR call successful.
     if (lambdaStatusCode == 200) {
-        recognizedText = recognizedText.split("\\n").join("<br/>");     // Replace all hard-coded newlines with HTML line breaks.
-        recognizedText = recognizedText.split("\\t").join("&nbsp;&nbsp;&nbsp;&nbsp;");    // Replace all hard-coded tabs with HTML tabs.
+        recognizedText = recognizedText.split("\\n").join("<br/>");         // Replace all hard-coded newlines with HTML line breaks.
+        recognizedText = recognizedText.split("\\t").join(UNICODE_TAB);     // Replace all hard-coded tabs with HTML tabs.
         document.getElementById("results").innerHTML = recognizedText;
     }
 
