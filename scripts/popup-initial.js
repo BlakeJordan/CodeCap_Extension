@@ -11,16 +11,23 @@ const START_SCREEN_SHOTTER_MESSAGE = "popup_init";
 ///////////////////////////////////////////////////////////////////////////////	
 
 // Set listener for screenshot button.	
-var screenshotButton = document.getElementById("screenshot_button");	
+var screenshotButton = document.getElementById("screenshot_button");
 screenshotButton.onclick = function (element) {	
     onScreenShotButtonClick();	
 };	
 
-// Set listener for upload button.	
+// Set listener for upload butto and pop up the file explorer
+var input = document.querySelector('input');
 var uploadButton = document.getElementById("upload_button");	
-uploadButton.onclick = function (element) {	
-    onUploadButtonClick();	
-};
+    uploadButton.addEventListener('click', function (e) {
+    input.click();
+    console.log(input.files[0]);
+    setTimeout(() => {
+    window.close();	
+        
+    }, 1000);
+
+ }); 
 
 
 ///////////////////////////////////////////////////////////////////////////////	
@@ -36,10 +43,13 @@ function onScreenShotButtonClick() {
 }	
 function onUploadButtonClick() {	
     // Send start message to file-uploader.js.	
-    sendMessageToContentScripts(START_FILE_UPLOADER_MESSAGE);	
+    //var botton = document.getElementById('upload_button');
+ //   uploadButton.addEventListener('click', function (e) {
+   //     input.click();
+     //   window.close();	
 
+   // });    
     // Close popup.	
-    window.close();	
 }
 
 
@@ -47,6 +57,6 @@ function onUploadButtonClick() {
 function sendMessageToContentScripts(message) {	
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {	
         var activeTab = tabs[0];	
-        chrome.runtime.sendMessage({message: "popup_init", tabID: activeTab.id });	
+        chrome.runtime.sendMessage({message: message, tabID: activeTab.id });	
     });	
 }

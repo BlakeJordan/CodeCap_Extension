@@ -6,6 +6,7 @@ const NOTIFY_OCR_EXECUTED_MESSAGE  = "notify_ocr_executed";
 const SECONDARY_POPUP_FILE_PATH    = "../html/popup-results.html";
 const START_SCREEN_SHOTTER_MESSAGE = "start_screen_shotter";
 const REQUEST_LAMBDA_RESULTS       = "request_lambda_results"
+const START_FILE_UPLOADER_MESSAGE  = "start_file_uploader";	
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -93,6 +94,8 @@ chrome.runtime.onMessage.addListener(
       case "popup_init":
         getTab(injectTab);
         return true;
+
+
 
 //end new      
       case "active":

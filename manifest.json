@@ -13,7 +13,9 @@
         "clipboardWrite",
         "notifications",
         "storage",
-        "activeTab"
+        "activeTab",
+        "https://www.example.com/uploads"
+
     ],
 
     "browser_action": {
