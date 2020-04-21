@@ -32,8 +32,7 @@
     "content_scripts": [
         {
             "matches": [ "<all_urls>" ],
-            "js": [ "scripts/file-uploader.js",
-                    "scripts/aws-sdk.min.js", "scripts/ocr-lambda-handler.js" ]
+            "js": [ "scripts/aws-sdk.min.js", "scripts/ocr-lambda-handler.js" ]
         }
     ],
 

@@ -29,6 +29,14 @@ function getTab(callback){
   });
 };
 
+function uploadInject(tabs){
+  var tab = tabs[0];
+  chrome.tabs.executeScript(tab.id, {file: 'scripts/file-uploader.js', runAt: 'document_start'})
+
+
+
+};
+
 function injectTab(tabs){
   var tab = tabs[0];
   chrome.tabs.sendMessage(tab.id, {message: 'init'}, (res) => {
@@ -36,6 +44,8 @@ function injectTab(tabs){
       clearTimeout(timeout)
     }
   });
+
+  
 
 var timeout = setTimeout(() => {
     console.log("injection\n")
@@ -93,7 +103,39 @@ chrome.runtime.onMessage.addListener(
       
       case "popup_init":
         getTab(injectTab);
+
         return true;
+
+
+      case "INJECT":
+        // getTab(uploadInject);
+        
+        chrome.tabs.query({active: true}, function(tabs){ 
+        chrome.tabs.executeScript(tabs[0].id, {file: 'scripts/file-uploader.js', runAt: 'document_start'})
+
+        }); 
+        break;
+         
+      case "FILE_UPLOAD_RESULT":
+
+
+        chrome.tabs.query({active: true}, function(tabs){ 
+          chrome.tabs.sendMessage(tabs[0].id, 
+                                      {
+                                        message: "UPLOAD_DONE", base64: request.imgString
+                                      }
+                                      )});
+         break;
+         /*
+        getTab(uploadInject);
+        chrome.tabs.sendMessage(tab.id,
+          {
+            message: 'UPLOAD_DONE',
+            base64: request.imgString,
+          })
+        return true;
+*/
+
 
 
 
